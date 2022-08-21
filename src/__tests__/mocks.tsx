@@ -1,8 +1,7 @@
 import { Initable } from 'types'
 import { Module } from 'Module'
 import { injectable } from 'tsyringe'
-import { FC } from 'react'
-import { useModule } from 'hooks'
+import { action, computed, makeObservable, observable } from 'mobx'
 
 // independent
 @Module(false)
@@ -87,5 +86,29 @@ export class UnmeetE implements Initable {
 
   invokeD() {
     return this.moduleD.methodD()
+  }
+}
+
+@Module
+export class CounterModule {
+  @observable value = 0
+
+  constructor() {
+    makeObservable(this)
+  }
+
+  @action.bound
+  increment() {
+    this.value++
+  }
+
+  @action.bound
+  decrement() {
+    this.value--
+  }
+
+  @computed
+  get square() {
+    return this.value * this.value
   }
 }

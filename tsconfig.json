@@ -12,14 +12,13 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "module": "ESNext",
+    "noEmit": true,
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
     "baseUrl": "src",
     "jsx": "react-jsx",
-    "types": ["reflect-metadata", "jest", "node", "@testing-library/jest-dom"],
-    "outDir": "./dist"
+    "types": ["reflect-metadata", "jest", "node", "@testing-library/jest-dom"]
   },
-  "include": ["src", "jest.config.ts"]
+  "include": ["src"]
 }

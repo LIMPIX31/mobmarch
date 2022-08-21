@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import { MarchProvider } from 'store'
-import { register } from 'Module'
+import { register } from 'register'
 import { FC } from 'react'
 import { useModule } from 'hooks'
 import { Defer } from 'components'
