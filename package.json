@@ -1,9 +1,13 @@
 {
   "name": "mobmarch",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
-  "files": ["dist/**/*"],
-  "exports": ["./dist/index.js"],
+  "files": [
+    "dist/**/*"
+  ],
+  "exports": [
+    "./dist/index.js"
+  ],
   "types": "./dist/types/index.d.ts",
   "bugs": {
     "url": "https://github.com/LIMPIX31/mobmarch/issues"
