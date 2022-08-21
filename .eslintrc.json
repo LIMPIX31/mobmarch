@@ -23,6 +23,7 @@
     "@typescript-eslint"
   ],
   "rules": {
+    "@typescript-eslint/no-explicit-any": "off",
     "prettier/prettier": "error",
     "indent": "off",
     "no-async-promise-executor": "off",
@@ -30,10 +31,7 @@
       "error",
       "unix"
     ],
-    "quotes": [
-      "error",
-      "single"
-    ],
+    "quotes": "off",
     "semi": [
       "error",
       "never"
