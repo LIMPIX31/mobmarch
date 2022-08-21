@@ -9,6 +9,16 @@
     "url": "https://github.com/LIMPIX31/mobmarch/issues"
   },
   "homepage": "https://github.com/LIMPIX31/mobmarch#readme",
+  "keywords": [
+    "mobx",
+    "mobx-react",
+    "react",
+    "tsyringe",
+    "IoC",
+    "module",
+    "dependency injection",
+    "mobmarch"
+  ],
   "scripts": {
     "test": "jest",
     "lint": "eslint src/**/*.{ts,tsx}",
