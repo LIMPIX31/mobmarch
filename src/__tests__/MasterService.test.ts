@@ -1,8 +1,8 @@
-import { MasterService } from 'Master.service'
-import { SoftDependentA, IndependentService, HardDependentC, ModuleD } from '__tests__/mocks'
-import { NotMetDependenciesException } from 'exceptions'
-import { UnreadyModuleException } from 'exceptions'
-import { ModuleDuplicationException } from 'exceptions'
+import { MasterService } from '../Master.service'
+import { SoftDependentA, IndependentService, HardDependentC, ModuleD } from './mocks'
+import { NotMetDependenciesException } from '../exceptions'
+import { UnreadyModuleException } from '../exceptions'
+import { ModuleDuplicationException } from '../exceptions'
 import { container } from 'tsyringe'
 
 describe('MasterService', () => {

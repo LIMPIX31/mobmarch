@@ -1,11 +1,11 @@
 import { render, screen } from '@testing-library/react'
-import { MarchProvider } from 'store'
-import { register } from 'register'
+import { MarchProvider } from '../store'
+import { register } from '../register'
 import { FC } from 'react'
-import { useModule } from 'hooks'
-import { Defer } from 'components'
+import { useModule } from '../hooks'
+import { Defer } from '../components'
 import { container } from 'tsyringe'
-import { HardDependentC, IndependentService, ModuleD, SoftDependentA } from '__tests__/mocks'
+import { HardDependentC, IndependentService, ModuleD, SoftDependentA } from './mocks'
 
 const DisplayIndependent: FC = () => {
   const module = useModule(IndependentService)

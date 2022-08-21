@@ -1,13 +1,13 @@
 import { container } from 'tsyringe'
-import { register } from 'register'
+import { register } from '../register'
 import { screen, render } from '@testing-library/react'
-import { MarchProvider } from 'store'
+import { MarchProvider } from '../store'
 import { FC } from 'react'
-import { useModule } from 'hooks'
-import { Defer } from 'components'
+import { useModule } from '../hooks'
+import { Defer } from '../components'
 import userEvent from '@testing-library/user-event'
-import { CounterModule, PossiblyAffected } from '__tests__/mocks'
-import { Observer } from 'Observer'
+import { CounterModule, PossiblyAffected } from './mocks'
+import { Observer } from '../Observer'
 
 const Counter: FC = Observer(() => {
   const module = useModule(CounterModule)

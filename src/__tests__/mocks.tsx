@@ -1,5 +1,5 @@
-import { Initable } from 'types'
-import { Module } from 'Module'
+import { Initable } from '../types'
+import { Module } from '../Module'
 import { injectable } from 'tsyringe'
 import { action, computed, makeObservable, observable } from 'mobx'
 

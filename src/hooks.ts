@@ -1,6 +1,6 @@
-import { Dependency, ModuleConstructor } from 'types'
+import { Dependency, ModuleConstructor } from './types'
 import { useContext, useEffect, useState } from 'react'
-import { MarchContext } from 'store'
+import { MarchContext } from './store'
 
 const useStore = () => {
   const store = useContext(MarchContext)

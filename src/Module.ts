@@ -1,6 +1,6 @@
 import { container, singleton } from 'tsyringe'
-import { Dependency, ModuleConstructor } from 'types'
-import { MasterService } from 'Master.service'
+import { Dependency, ModuleConstructor } from './types'
+import { MasterService } from './Master.service'
 
 export function Module<T>(target: ModuleConstructor<T>): void
 export function Module<T>(dependencies: Dependency[]): (target: ModuleConstructor<T>) => void

@@ -1,6 +1,6 @@
 import { FC, ReactNode } from 'react'
-import { Dependency } from 'types'
-import { useAwaitAll } from 'hooks'
+import { Dependency } from './types'
+import { useAwaitAll } from './hooks'
 
 export interface DeferProps {
   errorFallback?: ReactNode

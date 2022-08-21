@@ -16,7 +16,6 @@
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "baseUrl": "src",
     "jsx": "react-jsx",
     "types": ["reflect-metadata", "jest", "node", "@testing-library/jest-dom"]
   },

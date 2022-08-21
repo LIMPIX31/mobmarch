@@ -1,5 +1,5 @@
 import { createContext, FC, ReactNode } from 'react'
-import { MasterService } from 'Master.service'
+import { MasterService } from './Master.service'
 import { container } from 'tsyringe'
 
 interface MarchStoreType {

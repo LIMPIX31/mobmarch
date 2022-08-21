@@ -1,6 +1,6 @@
-import { Dependency } from 'types'
+import { Dependency } from './types'
 import { container } from 'tsyringe'
-import { MasterService } from 'Master.service'
+import { MasterService } from './Master.service'
 
 export const register = (...modules: Array<[module: Dependency, ...dependencies: Dependency[]]>) => {
   for (const [module, ...deps] of modules) {
