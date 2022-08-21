@@ -31,8 +31,7 @@
     "prebuild": "tsc",
     "build": "yarn checks && tsc --project tsconfig.build.json",
     "coverage": "jest --coverage",
-    "prepare": "yarn build",
-    "prepublishOnly": "yarn checks",
+    "prepublishOnly": "yarn build",
     "version": "git add -A src",
     "postversion": "git push && git push --tags"
   },
