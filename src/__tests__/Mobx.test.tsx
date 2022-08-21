@@ -6,7 +6,7 @@ import { FC } from 'react'
 import { useModule } from 'hooks'
 import { Defer } from 'components'
 import userEvent from '@testing-library/user-event'
-import { CounterModule } from '__tests__/mocks'
+import { CounterModule, PossiblyAffected } from '__tests__/mocks'
 import { Observer } from 'Observer'
 
 const Counter: FC = Observer(() => {
@@ -21,9 +21,11 @@ const Counter: FC = Observer(() => {
 })
 
 const AffectTest: FC<{ rerender: () => void }> = Observer(({ rerender }) => {
+  const module = useModule(PossiblyAffected)
   rerender()
   return (
     <div>
+      <button onClick={() => module.push('a')}>{module.string}</button>
       <Counter />
     </div>
   )
@@ -49,11 +51,11 @@ describe('MobX', () => {
   })
 
   it('should not affect other components', async () => {
-    register([CounterModule])
+    register([CounterModule], [PossiblyAffected])
     const rerender = jest.fn()
     render(
       <MarchProvider>
-        <Defer depend={CounterModule}>
+        <Defer depend={[CounterModule, PossiblyAffected]}>
           <AffectTest rerender={rerender} />
         </Defer>
       </MarchProvider>,

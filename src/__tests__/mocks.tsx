@@ -112,3 +112,17 @@ export class CounterModule {
     return this.value * this.value
   }
 }
+
+@Module
+export class PossiblyAffected {
+  @observable string = ''
+
+  constructor() {
+    makeObservable(this)
+  }
+
+  @action.bound
+  push(value: string) {
+    this.string += value
+  }
+}
