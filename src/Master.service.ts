@@ -16,11 +16,7 @@ export class MasterService {
     if (this.modules.find(m => m.constructor === module)) throw new ModuleDuplicationException(module.name)
     const unmet = this.checkDependencies(dependencies)
     if (unmet.length !== 0) throw new NotMetDependenciesException(unmet)
-    this.modules.push({ constructor: module, status: 'idle' })
-    for (const dep of dependencies) {
-      const wrapper = this.getWrapped(dep)
-      if (wrapper.status === 'idle') this.satisfy(dep).then(() => (wrapper.status = 'active'))
-    }
+    this.modules.push({ constructor: module, status: 'idle', dependencies })
   }
 
   private checkDependencies(dependencies: Dependency[]) {
@@ -42,6 +38,10 @@ export class MasterService {
     const wrapper = this.getWrapped(module)
     if (!wrapper) throw new UnknownModuleException(module.name)
     if (wrapper.status === 'idle') {
+      for (const dep of wrapper.dependencies) {
+        const depWrapper = this.getWrapped(dep)
+        if (depWrapper.status === 'idle') await this.satisfy(dep).then(() => (depWrapper.status = 'active'))
+      }
       await this.satisfy(module)
       wrapper.status = 'active'
     }

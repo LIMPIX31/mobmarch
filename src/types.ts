@@ -11,6 +11,7 @@ export interface ModuleConstructor<T> {
 export interface ModuleWrapper {
   constructor: ModuleConstructor<any>
   status: 'idle' | 'active'
+  dependencies: Dependency[]
 }
 
 export type Dependency = ModuleConstructor<any>

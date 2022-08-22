@@ -89,7 +89,7 @@ export class UnmeetE implements Initable {
   }
 }
 
-@Module
+@Module(false)
 export class CounterModule {
   @observable value = 0
 
@@ -113,7 +113,7 @@ export class CounterModule {
   }
 }
 
-@Module
+@Module(false)
 export class PossiblyAffected {
   @observable string = ''
 
@@ -124,5 +124,16 @@ export class PossiblyAffected {
   @action.bound
   push(value: string) {
     this.string += value
+  }
+}
+
+@Module(false)
+export class LongTimeModule implements Initable {
+  init(): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, 50))
+  }
+
+  method() {
+    return 'LongTimeModule'
   }
 }
