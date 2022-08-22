@@ -206,6 +206,33 @@ export const App: FC = () => {
 }
 ```
 
+## Testing
+An example of testing your modules
+```tsx
+describe('Counter', () => {
+  // Clearing all previously created modules to make testing predictable.
+  beforeEach(() => container.clearInstances())
+
+  it('should work', async () => {
+    // Manually register the module under test.
+    // Pattern: register([module1, ...dependencies], [module2, ...dependencies])
+    register([CounterModule])
+    render(
+      <MarchProvider>
+        <Defer depend={CounterModule}>
+          <Counter />
+        </Defer>
+      </MarchProvider>,
+    )
+    expect(await screen.findByRole('textbox')).toHaveTextContent('0')
+    await userEvent.click(screen.getByText('+'))
+    expect(await screen.findByRole('textbox')).toHaveTextContent('1')
+    await userEvent.click(screen.getByText('-'))
+    expect(await screen.findByRole('textbox')).toHaveTextContent('0')
+  })
+})
+```
+
 ## License (MIT)
 
 MIT License
