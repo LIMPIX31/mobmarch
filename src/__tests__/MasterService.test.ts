@@ -1,5 +1,5 @@
 import { MasterService } from '../Master.service'
-import { SoftDependentA, IndependentService, HardDependentC, ModuleD } from './mocks'
+import { SoftDependentA, IndependentService, HardDependentC, ModuleD, FloatModule } from './mocks'
 import { NotMetDependenciesException } from '../exceptions'
 import { UnreadyModuleException } from '../exceptions'
 import { ModuleDuplicationException } from '../exceptions'
@@ -69,5 +69,13 @@ describe('MasterService', () => {
       err = e
     }
     expect(err).toBeInstanceOf(ModuleDuplicationException)
+  })
+})
+
+describe('Floating modules', () => {
+  it('float module should be resolved', async () => {
+    const master = container.resolve(MasterService)
+    const float = await master.resolve(FloatModule)
+    expect(float).toBeDefined()
   })
 })

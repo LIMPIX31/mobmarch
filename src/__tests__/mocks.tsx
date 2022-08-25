@@ -137,3 +137,6 @@ export class LongTimeModule implements Initable {
     return 'LongTimeModule'
   }
 }
+
+@Module
+export class FloatModule {}
