@@ -33,7 +33,8 @@
     "coverage": "jest --coverage",
     "prepublishOnly": "yarn build",
     "version": "git add -A src",
-    "postversion": "git push && git push --tags"
+    "postversion": "git push && git push --tags",
+    "peers": "install-peers"
   },
   "dependencies": {
     "reflect-metadata": "0.1.13"
@@ -49,6 +50,7 @@
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-prettier": "4.2.1",
     "eslint-plugin-react": "7.30.1",
+    "install-peers-cli": "^2.2.0",
     "jest": "28.1.3",
     "jest-environment-jsdom": "28.1.3",
     "prettier": "2.7.1",
