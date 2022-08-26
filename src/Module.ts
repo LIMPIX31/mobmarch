@@ -17,6 +17,6 @@ export function Module<T>(object: ModuleConstructor<T> | Dependency[] | boolean,
   else decorate(object, [])
 }
 
-export const isModule = <T>(target: T): boolean => {
+export const isModule = <T extends object>(target: T): boolean => {
   return Reflect.hasMetadata('module', target)
 }
