@@ -1,12 +1,12 @@
-import { Initable } from '../types'
+import { BeforeResolve } from '../types'
 import { Module } from '../Module'
 import { injectable } from 'tsyringe'
 import { action, computed, makeObservable, observable } from 'mobx'
 
 // independent
 @Module(false)
-export class IndependentService implements Initable {
-  init(): void {
+export class IndependentService {
+  [BeforeResolve](): void {
     console.log('Init')
   }
 
@@ -24,8 +24,8 @@ class B {
 }
 
 @Module(false)
-export class SoftDependentA implements Initable {
-  init(): void {
+export class SoftDependentA {
+  [BeforeResolve](): void {
     console.log('Init A')
   }
 
@@ -42,8 +42,8 @@ export class SoftDependentA implements Initable {
 
 // hard dependent
 @Module(false)
-export class ModuleD implements Initable {
-  init(): Promise<void> {
+export class ModuleD {
+  [BeforeResolve](): Promise<void> {
     return Promise.resolve().then(() => console.log('Init D'))
   }
 
@@ -53,8 +53,8 @@ export class ModuleD implements Initable {
 }
 
 @Module(false, [ModuleD])
-export class HardDependentC implements Initable {
-  init(): void {
+export class HardDependentC {
+  [BeforeResolve](): void {
     console.log('Init C')
     console.log(`Accessing to ModuleD: ${this.moduleD.methodD()}`)
   }
@@ -73,8 +73,8 @@ export class HardDependentC implements Initable {
 }
 
 @Module(false)
-export class UnmeetE implements Initable {
-  init(): void {
+export class UnmeetE {
+  [BeforeResolve](): void {
     console.log('Init E')
   }
 
@@ -128,8 +128,8 @@ export class PossiblyAffected {
 }
 
 @Module(false)
-export class LongTimeModule implements Initable {
-  init(): Promise<void> {
+export class LongTimeModule {
+  [BeforeResolve](): Promise<void> {
     return new Promise(resolve => setTimeout(resolve, 50))
   }
 
@@ -139,7 +139,7 @@ export class LongTimeModule implements Initable {
 }
 
 @Module(false)
-export class Level3 implements Initable {
+export class Level3 {
   init() {
     return Promise.resolve()
   }
@@ -150,8 +150,8 @@ export class Level3 implements Initable {
 }
 
 @Module(false, [Level3])
-export class Level2 implements Initable {
-  init() {
+export class Level2 {
+  [BeforeResolve]() {
     return Promise.resolve()
   }
 
@@ -159,8 +159,8 @@ export class Level2 implements Initable {
 }
 
 @Module(false, [Level2])
-export class Level1 implements Initable {
-  init() {
+export class Level1 {
+  [BeforeResolve]() {
     return Promise.resolve()
   }
 

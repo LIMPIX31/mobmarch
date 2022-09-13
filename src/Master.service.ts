@@ -1,5 +1,5 @@
 import { container } from 'tsyringe'
-import { ModuleConstructor, Dependency, ModuleWrapper } from './types'
+import { ModuleConstructor, Dependency, ModuleWrapper, BeforeResolve } from './types'
 import { UnknownModuleException } from './exceptions'
 import { isModule, Module } from './Module'
 import { NotAModuleException } from './exceptions'
@@ -31,7 +31,7 @@ export class MasterService {
 
   private async satisfy(dependency: Dependency): Promise<void> {
     const instance = container.resolve(dependency)
-    if (instance.init) await instance.init()
+    if (instance[BeforeResolve]) await instance[BeforeResolve]()
   }
 
   async resolve<T>(module: ModuleConstructor<T>): Promise<T> {
