@@ -46,12 +46,12 @@ export class CounterService {
     makeObservable(this)
   }
 
-  @action.bound
+  @action
   increment() {
     this.value++
   }
 
-  @action.bound
+  @action
   decrement() {
     this.value--
   }
@@ -215,8 +215,8 @@ describe('Counter', () => {
 
   it('should work', async () => {
     // Manually register the module under test.
-    // Pattern: register([module1, ...dependencies], [module2, ...dependencies])
-    register([CounterModule])
+    // Pattern: register(module1, module2)
+    register(CounterModule)
     render(
       <MarchProvider>
         <Defer depend={CounterModule}>
@@ -232,6 +232,12 @@ describe('Counter', () => {
   })
 })
 ```
+
+## Breaking changes v1
+Starting with major version **1**:
+* Dependencies (including deep ones) are automatically resolved as soon as the module using those dependencies has been requested. Prior to v1, only first-level dependencies were resolved, which should not be the case.
+* Specifying dependent modules in `register` and `<Defer>` is no longer required, since as of version v1 they are automatically resolved due to the change described above
+* The implementation of the `Initable` interface is no longer required, and the method run on dependency resolution now uses the following signature: `private [BeforeResolve]() { /**/ }`
 
 ## License (MIT)
 
