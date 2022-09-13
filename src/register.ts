@@ -2,11 +2,11 @@ import { Dependency } from './types'
 import { container } from 'tsyringe'
 import { MasterService } from './Master.service'
 
-export const register = (...modules: Array<[module: Dependency, ...dependencies: Dependency[]]>) => {
-  for (const [module, ...deps] of modules) {
+export const register = (...modules: Dependency[]) => {
+  for (const module of modules) {
     try {
       const master = container.resolve(MasterService)
-      master.new(module, deps)
+      master.new(module)
     } catch (e: any) {
       throw new Error(`Failed to register module ${module.name}. Reason: ${e.message}`)
     }

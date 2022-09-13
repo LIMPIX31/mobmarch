@@ -137,3 +137,32 @@ export class LongTimeModule implements Initable {
     return 'LongTimeModule'
   }
 }
+
+@Module(false)
+export class Level3 implements Initable {
+  init() {
+    return Promise.resolve()
+  }
+
+  target() {
+    return 'target'
+  }
+}
+
+@Module(false, [Level3])
+export class Level2 implements Initable {
+  init() {
+    return Promise.resolve()
+  }
+
+  constructor(public readonly l3: Level3) {}
+}
+
+@Module(false, [Level2])
+export class Level1 implements Initable {
+  init() {
+    return Promise.resolve()
+  }
+
+  constructor(public readonly l2: Level2) {}
+}

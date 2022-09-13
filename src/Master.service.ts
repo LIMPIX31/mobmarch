@@ -1,6 +1,5 @@
 import { container } from 'tsyringe'
 import { ModuleConstructor, Dependency, ModuleWrapper } from './types'
-import { NotMetDependenciesException } from './exceptions'
 import { UnknownModuleException } from './exceptions'
 import { isModule, Module } from './Module'
 import { NotAModuleException } from './exceptions'
@@ -11,11 +10,12 @@ import { ModuleDuplicationException } from './exceptions'
 export class MasterService {
   private modules: ModuleWrapper[] = []
 
-  new<T>(module: ModuleConstructor<T>, dependencies: Dependency[]) {
+  new<T>(module: ModuleConstructor<T>) {
     if (!isModule(module)) throw new NotAModuleException(module.name)
     if (this.modules.find(m => m.constructor === module)) throw new ModuleDuplicationException(module.name)
+    const dependencies = Reflect.getMetadata('dependencies', module) as Dependency[]
     const unmet = this.checkDependencies(dependencies)
-    if (unmet.length !== 0) throw new NotMetDependenciesException(unmet)
+    unmet.forEach(this.new.bind(this))
     this.modules.push({ constructor: module, status: 'idle', dependencies })
   }
 
@@ -40,7 +40,7 @@ export class MasterService {
     if (wrapper.status === 'idle') {
       for (const dep of wrapper.dependencies) {
         const depWrapper = this.getWrapped(dep)
-        if (depWrapper.status === 'idle') await this.satisfy(dep).then(() => (depWrapper.status = 'active'))
+        if (depWrapper.status === 'idle') await this.resolve(dep)
       }
       await this.satisfy(module)
       wrapper.status = 'active'

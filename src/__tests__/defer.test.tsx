@@ -20,7 +20,7 @@ describe('useDeferredModule', () => {
   beforeEach(() => container.clearInstances())
 
   it('should resolve', async () => {
-    register([LongTimeModule])
+    register(LongTimeModule)
     render(
       <MarchProvider>
         <DeferredUse />

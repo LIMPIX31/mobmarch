@@ -29,7 +29,7 @@ describe('MarchProvider', () => {
   beforeEach(() => container.clearInstances())
 
   it('should provide service', async () => {
-    register([IndependentService])
+    register(IndependentService)
     render(
       <MarchProvider>
         <Defer depend={IndependentService}>
@@ -43,7 +43,7 @@ describe('MarchProvider', () => {
   })
 
   it('should provide hard dependent multiple', async () => {
-    register([ModuleD], [HardDependentC, ModuleD], [SoftDependentA])
+    register(HardDependentC, SoftDependentA)
     render(
       <MarchProvider>
         <Defer depend={[HardDependentC, SoftDependentA]}>

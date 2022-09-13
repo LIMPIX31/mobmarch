@@ -35,7 +35,7 @@ describe('MobX', () => {
   beforeEach(() => container.clearInstances())
 
   it('should work (counter)', async () => {
-    register([CounterModule])
+    register(CounterModule)
     render(
       <MarchProvider>
         <Defer depend={CounterModule}>
@@ -51,7 +51,7 @@ describe('MobX', () => {
   })
 
   it('should not affect other components', async () => {
-    register([CounterModule], [PossiblyAffected])
+    register(CounterModule, PossiblyAffected)
     const rerender = jest.fn()
     render(
       <MarchProvider>

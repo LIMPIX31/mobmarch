@@ -9,8 +9,9 @@ export function Module<T>(autoStart: boolean, dependencies: Dependency[]): (targ
 export function Module<T>(object: ModuleConstructor<T> | Dependency[] | boolean, dependencies: Dependency[] = []) {
   const decorate = (target: any, deps: Dependency[], autoStart = true) => {
     Reflect.defineMetadata('module', true, target)
+    Reflect.defineMetadata('dependencies', dependencies, target)
     singleton()(target)
-    if (autoStart) (async () => container.resolve(MasterService).new(target, deps))()
+    if (autoStart) (async () => container.resolve(MasterService).resolve(target))()
   }
   if (Array.isArray(object)) return (target: T) => decorate(target, object)
   else if (typeof object === 'boolean') return (target: T) => decorate(target, dependencies, object)
