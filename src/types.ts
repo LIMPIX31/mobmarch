@@ -9,5 +9,3 @@ export interface ModuleWrapper {
 }
 
 export type Dependency = ModuleConstructor<any>
-
-export const BeforeResolve = Symbol('beforeResolve')

@@ -6,4 +6,5 @@ export * from './exceptions'
 export { Defer } from './components'
 export type { DeferProps } from './components'
 export { Observer } from './Observer'
-export type { Dependency, ModuleConstructor, BeforeResolve } from './types'
+export type { Dependency, ModuleConstructor } from './types'
+export const BeforeResolve = Symbol('beforeResolve')
