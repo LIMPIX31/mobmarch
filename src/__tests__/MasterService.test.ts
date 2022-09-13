@@ -1,7 +1,6 @@
 import { MasterService } from '../Master.service'
 import { SoftDependentA, IndependentService, HardDependentC, ModuleD } from './mocks'
 import { UnreadyModuleException } from '../exceptions'
-import { ModuleDuplicationException } from '../exceptions'
 import { container } from 'tsyringe'
 
 describe('MasterService', () => {
@@ -45,17 +44,5 @@ describe('MasterService', () => {
       err = e
     }
     expect(err).toBeInstanceOf(UnreadyModuleException)
-  })
-
-  it('should throw duplication error', () => {
-    const master = newMaster()
-    let err
-    try {
-      master.new(IndependentService)
-      master.new(IndependentService)
-    } catch (e) {
-      err = e
-    }
-    expect(err).toBeInstanceOf(ModuleDuplicationException)
   })
 })

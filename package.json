@@ -29,7 +29,7 @@
     "lint:fix": "eslint --fix src/**/*.{ts,tsx}",
     "checks": "yarn lint && yarn prebuild && yarn test",
     "prebuild": "tsc",
-    "build": "yarn checks && tsc --project tsconfig.build.json",
+    "build": "tsc --project tsconfig.build.json",
     "coverage": "jest --coverage",
     "prepublishOnly": "yarn build",
     "version": "git add -A src",

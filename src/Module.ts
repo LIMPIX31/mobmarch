@@ -11,7 +11,7 @@ export function Module<T>(object: ModuleConstructor<T> | Dependency[] | boolean,
     Reflect.defineMetadata('module', true, target)
     Reflect.defineMetadata('dependencies', dependencies, target)
     singleton()(target)
-    if (autoStart) (async () => container.resolve(MasterService).resolve(target))()
+    if (autoStart) (async () => container.resolve(MasterService).new(target)?.resolve(target))()
   }
   if (Array.isArray(object)) return (target: T) => decorate(target, object)
   else if (typeof object === 'boolean') return (target: T) => decorate(target, dependencies, object)

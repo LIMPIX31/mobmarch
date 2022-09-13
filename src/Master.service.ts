@@ -4,7 +4,6 @@ import { UnknownModuleException } from './exceptions'
 import { isModule, Module } from './Module'
 import { NotAModuleException } from './exceptions'
 import { UnreadyModuleException } from './exceptions'
-import { ModuleDuplicationException } from './exceptions'
 import { BeforeResolve } from './index'
 
 @Module(false)
@@ -13,11 +12,12 @@ export class MasterService {
 
   new<T>(module: ModuleConstructor<T>) {
     if (!isModule(module)) throw new NotAModuleException(module.name)
-    if (this.modules.find(m => m.constructor === module)) throw new ModuleDuplicationException(module.name)
+    if (this.modules.find(m => m.constructor === module)) return
     const dependencies = Reflect.getMetadata('dependencies', module) as Dependency[]
     const unmet = this.checkDependencies(dependencies)
     unmet.forEach(this.new.bind(this))
     this.modules.push({ constructor: module, status: 'idle', dependencies })
+    return this
   }
 
   private checkDependencies(dependencies: Dependency[]) {
@@ -32,6 +32,7 @@ export class MasterService {
 
   private async satisfy(dependency: Dependency): Promise<void> {
     const instance = container.resolve(dependency)
+    console.log(dependency, instance)
     if (instance[BeforeResolve]) await instance[BeforeResolve]()
   }
 

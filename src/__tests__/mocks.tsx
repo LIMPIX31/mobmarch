@@ -138,11 +138,13 @@ export class LongTimeModule {
   }
 }
 
-@Module(false)
+@Module(false, [LongTimeModule])
 export class Level3 {
-  init() {
+  [BeforeResolve]() {
     return Promise.resolve()
   }
+
+  constructor(private readonly ltm: LongTimeModule) {}
 
   target() {
     return 'target'
