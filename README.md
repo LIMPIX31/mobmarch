@@ -148,13 +148,13 @@ export class TodoService {
 When creating an instance of `TodoAPI` all its dependencies will be resolved. However, the application world is not perfect and some dependencies cannot be resolved right away, for example the local storage needs time to read the file, the best solution for `TodoAPI` would be to wait until all its dependencies are ready. To use this behavior for `TodoAPI`, explicitly specify a list of dependencies in the `@Module` decorator.
 ```tsx
 @Module([TodoService])
-export class TodoAPI implements Initable {
+export class TodoAPI {
   constructor(private readonly todo: TodoService) {}
 
   // If there will be any other modules that depend on `TodoAPI`,
   // they will have to wait until the request to the server will
   // not be resolved successfully or with an error.
-  async init(): Promise<void> {
+  private async [BeforeResolve](): Promise<void> {
     try {
       this.todo.todos = await this.fetchTodos()
     } catch (e) {
