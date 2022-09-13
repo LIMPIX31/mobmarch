@@ -1,10 +1,11 @@
 import { container } from 'tsyringe'
-import { ModuleConstructor, Dependency, ModuleWrapper, BeforeResolve } from './types'
+import { ModuleConstructor, Dependency, ModuleWrapper } from './types'
 import { UnknownModuleException } from './exceptions'
 import { isModule, Module } from './Module'
 import { NotAModuleException } from './exceptions'
 import { UnreadyModuleException } from './exceptions'
 import { ModuleDuplicationException } from './exceptions'
+import { BeforeResolve } from './index'
 
 @Module(false)
 export class MasterService {

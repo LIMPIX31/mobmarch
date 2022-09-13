@@ -1,7 +1,7 @@
-import { BeforeResolve } from '../types'
 import { Module } from '../Module'
 import { injectable } from 'tsyringe'
 import { action, computed, makeObservable, observable } from 'mobx'
+import { BeforeResolve } from '../index'
 
 // independent
 @Module(false)
