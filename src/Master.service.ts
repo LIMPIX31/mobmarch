@@ -32,7 +32,6 @@ export class MasterService {
 
   private async satisfy(dependency: Dependency): Promise<void> {
     const instance = container.resolve(dependency)
-    console.log(dependency, instance)
     if (instance[BeforeResolve]) await instance[BeforeResolve]()
   }
 
