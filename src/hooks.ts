@@ -1,6 +1,7 @@
 import { Dependency, ModuleConstructor } from './types'
 import { useContext, useEffect, useState } from 'react'
 import { MarchContext } from './store'
+import { set } from 'mobx'
 
 const useStore = () => {
   const store = useContext(MarchContext)
@@ -33,8 +34,7 @@ export const useAwaitAll = (dependencies: Dependency[]): [loading: boolean, erro
   const [error, setError] = useState<Error>()
   useEffect(() => {
     Promise.all(dependencies.map(dependency => store.master.resolve(dependency)))
-      .then(() => setLoading(false))
-      .catch(error => setError(error))
+      .catch(setError)
       .finally(() => setLoading(false))
   }, [])
   return [loading, error]

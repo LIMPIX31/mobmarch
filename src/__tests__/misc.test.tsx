@@ -14,6 +14,11 @@ const Level: FC = () => {
     <div>
       {l1.l2.l3.target()}
       {ltm.method()}
+      {l1.side.l3.target()}
+      {l1.l3.target()} {String(l1.l2.l3.prop)}
+      {String(l1.l2.prop)}
+      {String(l1.prop)}
+      {String(ltm.prop)}
     </div>
   )
 }
@@ -26,12 +31,12 @@ describe('Misc', () => {
 
     render(
       <MarchProvider>
-        <Defer depend={[Level1, LongTimeModule]}>
+        <Defer depend={[Level1]}>
           <Level />
         </Defer>
       </MarchProvider>,
     )
 
-    expect(await screen.findByText('targetLongTimeModule')).toBeInTheDocument()
+    expect(await screen.findByText('targetLongTimeModuletargettarget truetruetruetrue')).toBeInTheDocument()
   })
 })

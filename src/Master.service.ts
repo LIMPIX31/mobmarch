@@ -13,15 +13,10 @@ export class MasterService {
   new<T>(module: ModuleConstructor<T>) {
     if (!isModule(module)) throw new NotAModuleException(module.name)
     if (this.modules.find(m => m.constructor === module)) return
-    const dependencies = Reflect.getMetadata('dependencies', module) as Dependency[]
-    const unmet = this.checkDependencies(dependencies)
-    unmet.forEach(this.new.bind(this))
+    const dependencies = Reflect.getMetadata('mobmarch:dependencies', module) as Dependency[]
+    dependencies.forEach(this.new.bind(this))
     this.modules.push({ constructor: module, status: 'idle', dependencies })
     return this
-  }
-
-  private checkDependencies(dependencies: Dependency[]) {
-    return dependencies.filter(dependency => !this.modules.find(service => service.constructor === dependency))
   }
 
   private getWrapped(dependency: Dependency) {
@@ -30,21 +25,20 @@ export class MasterService {
     return wrapper
   }
 
-  private async satisfy(dependency: Dependency): Promise<void> {
+  private async initialize(dependency: Dependency): Promise<void> {
+    const wrapper = this.getWrapped(dependency)
+    if (wrapper.status === 'active') return
     const instance = container.resolve(dependency)
     if (instance[BeforeResolve]) await instance[BeforeResolve]()
+    wrapper.status = 'active'
   }
 
   async resolve<T>(module: ModuleConstructor<T>): Promise<T> {
     const wrapper = this.getWrapped(module)
     if (!wrapper) throw new UnknownModuleException(module.name)
     if (wrapper.status === 'idle') {
-      for (const dep of wrapper.dependencies) {
-        const depWrapper = this.getWrapped(dep)
-        if (depWrapper.status === 'idle') await this.resolve(dep)
-      }
-      await this.satisfy(module)
-      wrapper.status = 'active'
+      await Promise.all(wrapper.dependencies.map(this.resolve.bind(this)))
+      await this.initialize(module)
     }
     return container.resolve(module)
   }

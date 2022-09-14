@@ -129,8 +129,11 @@ export class PossiblyAffected {
 
 @Module(false)
 export class LongTimeModule {
-  [BeforeResolve](): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, 50))
+  prop = false
+
+  private async [BeforeResolve](): Promise<void> {
+    await new Promise(resolve => setTimeout(resolve, 50))
+    this.prop = true
   }
 
   method() {
@@ -140,8 +143,11 @@ export class LongTimeModule {
 
 @Module(false, [LongTimeModule])
 export class Level3 {
-  [BeforeResolve]() {
-    return Promise.resolve()
+  prop = false
+
+  private async [BeforeResolve](): Promise<void> {
+    await new Promise(resolve => setTimeout(resolve, 34))
+    this.prop = true
   }
 
   constructor(private readonly ltm: LongTimeModule) {}
@@ -153,18 +159,36 @@ export class Level3 {
 
 @Module(false, [Level3])
 export class Level2 {
-  [BeforeResolve]() {
-    return Promise.resolve()
+  prop = false
+
+  private async [BeforeResolve](): Promise<void> {
+    await new Promise(resolve => setTimeout(resolve, 20))
+    this.prop = true
   }
 
   constructor(public readonly l3: Level3) {}
 }
 
-@Module(false, [Level2])
-export class Level1 {
-  [BeforeResolve]() {
-    return Promise.resolve()
+@Module(false, [Level3])
+export class LevelSide {
+  prop = false
+
+  private async [BeforeResolve](): Promise<void> {
+    await new Promise(resolve => setTimeout(resolve, 23))
+    this.prop = true
   }
 
-  constructor(public readonly l2: Level2) {}
+  constructor(public readonly l3: Level3) {}
+}
+
+@Module(false, [Level2, LevelSide, Level3])
+export class Level1 {
+  prop = false
+
+  private async [BeforeResolve](): Promise<void> {
+    await new Promise(resolve => setTimeout(resolve, 14))
+    this.prop = true
+  }
+
+  constructor(public readonly l2: Level2, public readonly side: LevelSide, public readonly l3: Level3) {}
 }
