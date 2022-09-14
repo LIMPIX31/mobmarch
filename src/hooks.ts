@@ -1,7 +1,6 @@
 import { Dependency, ModuleConstructor } from './types'
 import { useContext, useEffect, useState } from 'react'
 import { MarchContext } from './store'
-import { set } from 'mobx'
 
 const useStore = () => {
   const store = useContext(MarchContext)
@@ -21,10 +20,10 @@ export const useDeferredModule = <T>(module: ModuleConstructor<T>): [loading: bo
   useEffect(() => {
     store.master
       .resolve(module)
-      .then(instance => setInstance(instance))
-      .catch(error => setError(error))
+      .then(setInstance)
+      .catch(setError)
       .finally(() => setLoading(false))
-  }, [])
+  }, [module])
   return [loading, instance, error]
 }
 
