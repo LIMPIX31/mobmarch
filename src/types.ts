@@ -9,3 +9,5 @@ export interface ModuleWrapper {
 }
 
 export type Dependency = ModuleConstructor<any>
+
+export type Awaitable<T> = Promise<T> | T

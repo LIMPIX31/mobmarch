@@ -4,7 +4,7 @@ import { action, computed, makeObservable, observable } from 'mobx'
 import { BeforeResolve } from '../index'
 
 // independent
-@Module(false)
+@Module
 export class IndependentService {
   [BeforeResolve](): void {
     console.log('Init')
@@ -23,7 +23,7 @@ class B {
   }
 }
 
-@Module(false)
+@Module
 export class SoftDependentA {
   [BeforeResolve](): void {
     console.log('Init A')
@@ -41,7 +41,7 @@ export class SoftDependentA {
 }
 
 // hard dependent
-@Module(false)
+@Module
 export class ModuleD {
   [BeforeResolve](): Promise<void> {
     return Promise.resolve().then(() => console.log('Init D'))
@@ -52,7 +52,7 @@ export class ModuleD {
   }
 }
 
-@Module(false, [ModuleD])
+@Module([ModuleD])
 export class HardDependentC {
   [BeforeResolve](): void {
     console.log('Init C')
@@ -72,7 +72,7 @@ export class HardDependentC {
   }
 }
 
-@Module(false)
+@Module
 export class UnmeetE {
   [BeforeResolve](): void {
     console.log('Init E')
@@ -89,7 +89,7 @@ export class UnmeetE {
   }
 }
 
-@Module(false)
+@Module
 export class CounterModule {
   @observable value = 0
 
@@ -113,7 +113,7 @@ export class CounterModule {
   }
 }
 
-@Module(false)
+@Module
 export class PossiblyAffected {
   @observable string = ''
 
@@ -127,7 +127,7 @@ export class PossiblyAffected {
   }
 }
 
-@Module(false)
+@Module
 export class LongTimeModule {
   prop = false
 
@@ -141,7 +141,7 @@ export class LongTimeModule {
   }
 }
 
-@Module(false, [LongTimeModule])
+@Module([LongTimeModule])
 export class Level3 {
   prop = false
 
@@ -157,7 +157,7 @@ export class Level3 {
   }
 }
 
-@Module(false, [Level3])
+@Module([Level3])
 export class Level2 {
   prop = false
 
@@ -169,7 +169,7 @@ export class Level2 {
   constructor(public readonly l3: Level3) {}
 }
 
-@Module(false, [Level3])
+@Module([Level3])
 export class LevelSide {
   prop = false
 
@@ -181,7 +181,7 @@ export class LevelSide {
   constructor(public readonly l3: Level3) {}
 }
 
-@Module(false, [Level2, LevelSide, Level3])
+@Module([Level2, LevelSide, Level3])
 export class Level1 {
   prop = false
 

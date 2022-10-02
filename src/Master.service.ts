@@ -1,12 +1,13 @@
 import { container } from 'tsyringe'
 import { ModuleConstructor, Dependency, ModuleWrapper } from './types'
 import { UnknownModuleException } from './exceptions'
-import { isModule, Module } from './Module'
+import { isModule, isPersistentModule, MasterModule } from './Module'
 import { NotAModuleException } from './exceptions'
 import { UnreadyModuleException } from './exceptions'
 import { BeforeResolve } from './index'
+import { load } from './persistent'
 
-@Module(false)
+@MasterModule
 export class MasterService {
   private modules: ModuleWrapper[] = []
 
@@ -29,6 +30,7 @@ export class MasterService {
     const wrapper = this.getWrapped(dependency)
     if (wrapper.status === 'active') return
     const instance = container.resolve(dependency)
+    if (isPersistentModule(dependency)) await load(dependency)
     if (instance[BeforeResolve]) await instance[BeforeResolve]()
     wrapper.status = 'active'
   }

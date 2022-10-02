@@ -1,4 +1,6 @@
-export { Module } from './Module'
+export { Module, PersistentModule } from './Module'
+export { save, load, LocalStorageStrategy } from './persistent'
+export type { Strategy } from './persistent'
 export { register } from './register'
 export { MarchProvider } from './store'
 export { useModule, useDeferredModule } from './hooks'
@@ -8,3 +10,4 @@ export type { DeferProps } from './components'
 export { Observer } from './Observer'
 export type { Dependency, ModuleConstructor } from './types'
 export const BeforeResolve = Symbol('beforeResolve')
+export { resolve } from './resolve'
