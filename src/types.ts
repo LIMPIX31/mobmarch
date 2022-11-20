@@ -6,6 +6,7 @@ export interface ModuleWrapper {
   constructor: ModuleConstructor<any>
   status: 'idle' | 'active'
   dependencies: Dependency[]
+  resolution?: Promise<any>
 }
 
 export type Dependency = ModuleConstructor<any>

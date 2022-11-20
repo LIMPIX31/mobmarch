@@ -29,18 +29,19 @@ export class MasterService {
   private async initialize(dependency: Dependency): Promise<void> {
     const wrapper = this.getWrapped(dependency)
     if (wrapper.status === 'active') return
+    await Promise.all(wrapper.dependencies.map(this.resolve.bind(this)))
     const instance = container.resolve(dependency)
+    wrapper.status = 'active'
     if (isPersistentModule(dependency)) await load(dependency)
     if (instance[BeforeResolve]) await instance[BeforeResolve]()
-    wrapper.status = 'active'
   }
 
   async resolve<T>(module: ModuleConstructor<T>): Promise<T> {
     const wrapper = this.getWrapped(module)
     if (!wrapper) throw new UnknownModuleException(module.name)
     if (wrapper.status === 'idle') {
-      await Promise.all(wrapper.dependencies.map(this.resolve.bind(this)))
-      await this.initialize(module)
+      if (!wrapper.resolution) wrapper.resolution = this.initialize(module)
+      await wrapper.resolution
     }
     return container.resolve(module)
   }
